@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>La Tua Collezione di Carte</h1>
+
+  {% if g.user %}
+    <div class="total-value">
+      Valore Totale Collezione: €{{ total_value | abbreviate }}
+    </div>
+
+    <a href="{{ url_for('main.add_card') }}" class="btn" style="margin-bottom: 30px;">Aggiungi Nuova Carta</a>
+    <hr>
+
+    {% if cards %}
+      <div class="card-grid">
+        {% for card in cards %}
+          <div class="card-item">
+            {% if card['image_url'] %}
+              <img src="{{ card['image_url'] }}" alt="{{ card['name'] }}" class="card-image">
+            {% else %}
+              <div style="width: 200px; height: 280px; background: #666666; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; color: #cccccc;">
+                🃏 Nessuna Immagine
+              </div>
+            {% endif %}
+
+            <div class="card-info">
+              <h3 style="color: #ffffff; margin: 0 0 10px 0;">{{ card['name'] }}</h3>
+              <p><strong>Set:</strong> {{ card['set_name'] }}</p>
+              <p><strong>Numero:</strong> {{ card['card_number'] }}</p>
+              {% if card['rarity'] %}
+                <p><strong>Rarità:</strong> {{ card['rarity'] }}</p>
+              {% endif %}
+              <p><strong>Condizione:</strong> {{ card['condition'] }}</p>
+              <p><strong>Quantità:</strong> {{ card['quantity'] }}</p>
+              <p class="card-price">💰 €{{ "%.2f"|format(card['price'] * card['quantity']) }}</p>
+              <small style="color: #cccccc;">Aggiunta: {{ card['created'].strftime('%d/%m/%Y') }}</small>
+            </div>
+
+            <div style="margin-top: 15px;">
+              <a href="{{ url_for('main.update_card', id=card['id']) }}" class="btn" style="margin-right: 10px;">✏️ Modifica</a>
+              <form method="post" action="{{ url_for('main.delete_card', id=card['id']) }}" style="display: inline;">
+                <input type="submit" value="🗑️ Elimina" class="btn btn-danger" onclick="return confirm('Sei sicuro di voler eliminare questa carta?')">
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div style="text-align: center; padding: 50px; background: #444444; border-radius: 15px; margin-top: 20px; border: 1px solid #666666;">
+        <h2 style="color: #ffffff;">La tua collezione è vuota!</h2>
+        <p style="color: #cccccc;">Inizia ad aggiungere le tue carte per tracciare il valore della tua collezione.</p>
+        <a href="{{ url_for('main.add_card') }}" class="btn">Aggiungi la Prima Carta</a>
+      </div>
+    {% endif %}
+  {% else %}
+    <div style="text-align: center; padding: 50px; background: #444444; border-radius: 15px; margin-top: 20px; border: 1px solid #666666;">
+      <h2>Accedi per gestire la tua collezione</h2>
+      <p>Registrati o accedi per iniziare a collezionare e tracciare il valore delle tue carte!</p>
+      <div style="margin-top: 20px;">
+        <a href="{{ url_for('auth.register') }}" class="btn" style="margin-right: 15px;">Registrati</a>
+        <a href="{{ url_for('auth.login') }}" class="btn">Accedi</a>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

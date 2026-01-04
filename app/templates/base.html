@@ -1,0 +1,203 @@
+<!-- app/templates/base.html -->
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Card Collection{% endblock %}</title>
+
+<style>
+    body {
+        background: #333333;
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        min-height: 100vh;
+    }
+
+    nav {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        margin-bottom: 15px;
+        background: #222222;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    nav a {
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid #666666;
+        margin: 20px 0;
+    }
+
+    h1, h2 {
+        color: #ffffff;
+    }
+
+    main {
+        background: #444444;
+        padding: 30px;
+        border-radius: 15px;
+        border: 1px solid #666666;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        max-width: 500px;
+        background: #555555;
+        padding: 25px;
+        border-radius: 10px;
+        border: 1px solid #666666;
+    }
+
+    input, textarea, select {
+        background: #666666;
+        color: #ffffff;
+        border: 1px solid #888888;
+        padding: 12px;
+        border-radius: 8px;
+    }
+
+    option {
+        background: #666666;
+        color: #ffffff;
+    }
+
+    input:focus, textarea:focus, select:focus {
+        outline: none;
+        border-color: #ffffff;
+    }
+
+    input[type="submit"] {
+        background: #007bff;
+        border: none;
+        color: #ffffff;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .flash {
+        background: #aa4444;
+        color: #ffffff;
+        border: 1px solid #ff0000;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+    }
+
+    footer {
+        text-align: center;
+        color: #cccccc;
+        margin-top: 30px;
+    }
+
+    /* Card styles */
+    .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .card-item {
+        background: #555555;
+        border-radius: 15px;
+        padding: 20px;
+        border: 1px solid #666666;
+    }
+
+    .card-image {
+        width: 100%;
+        max-width: 200px;
+        height: auto;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    .card-info {
+        margin-bottom: 10px;
+    }
+
+    .card-price {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #00ff00;
+    }
+
+    .total-value {
+        background: #666666;
+        color: #ffffff;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        font-size: 1.5em;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #007bff;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-danger {
+        background: #ff0000;
+    }
+</style>
+</style>
+
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('main.index') }}">🏠 Card Collection</a>
+        <a href="{{ url_for('main.about') }}">ℹ️ Info</a>
+
+        <!-- LOGICA DINAMICA DELLA NAVBAR -->
+        {% if g.user %}
+            <!-- Se g.user esiste, l'utente è loggato -->
+            <span>🎴 Ciao, {{ g.user['username'] }}</span>
+            <a href="{{ url_for('main.add_card') }}">➕ Aggiungi Carta</a>
+            <a href="{{ url_for('auth.logout') }}">🚪 Logout</a>
+        {% else %}
+            <!-- Altrimenti mostriamo i tasti di accesso -->
+            <a href="{{ url_for('auth.register') }}">📝 Registrati</a>
+            <a href="{{ url_for('auth.login') }}">🔐 Login</a>
+        {% endif %}
+    </nav>
+
+    <hr>
+
+    <!-- Zona Messaggi Flash -->
+    {% for message in get_flashed_messages() %}
+        <div class="flash" style="color: red; border: 1px solid red; padding: 10px;">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <hr>
+    <footer>
+        <small>&copy; 2026 - Pokemon Card Collection Tracker 🃏</small>
+    </footer>
+</body>
+</html>

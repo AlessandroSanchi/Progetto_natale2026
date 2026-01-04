@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Collezione di {{ username }}</h1>
+
+  <div class="total-value">
+    Valore Totale Collezione: €{{ total_value | abbreviate }}
+  </div>
+
+  {% if cards %}
+    <div class="card-grid">
+      {% for card in cards %}
+        <div class="card-item">
+          {% if card['image_url'] %}
+            <img src="{{ card['image_url'] }}" alt="{{ card['name'] }}" class="card-image">
+          {% else %}
+            <div style="width: 200px; height: 280px; background: #666666; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; color: #cccccc;">
+              🃏 Nessuna Immagine
+            </div>
+          {% endif %}
+
+          <div class="card-info">
+            <h3 style="color: #ffffff; margin: 0 0 10px 0;">{{ card['name'] }}</h3>
+            <p><strong>Set:</strong> {{ card['set_name'] }}</p>
+            <p><strong>Numero:</strong> {{ card['card_number'] }}</p>
+            {% if card['rarity'] %}
+              <p><strong>Rarità:</strong> {{ card['rarity'] }}</p>
+            {% endif %}
+            <p><strong>Condizione:</strong> {{ card['condition'] }}</p>
+            <p><strong>Quantità:</strong> {{ card['quantity'] }}</p>
+            <p class="card-price">💰 €{{ "%.2f"|format(card['price'] * card['quantity']) }}</p>
+            <small style="color: #cccccc;">Aggiunta: {{ card['created'].strftime('%d/%m/%Y') }}</small>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>Questa collezione è vuota.</p>
+  {% endif %}
+
+  <div style="margin-top: 30px;">
+    <a href="{{ url_for('main.search_users') }}" class="btn">Cerca Altro Utente</a>
+  </div>
+{% endblock %}
