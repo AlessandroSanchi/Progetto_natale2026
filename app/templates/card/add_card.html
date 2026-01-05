@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Aggiungi Carta</h1>
+
+  <form method="post">
+    <label for="name">Nome della Carta *</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="set_name">Nome del Set *</label>
+    <input type="text" id="set_name" name="set_name" required>
+
+    <label for="card_number">Numero della Carta</label>
+    <input type="text" id="card_number" name="card_number" placeholder="es. 1/102">
+
+    <label for="rarity">Rarità</label>
+    <select id="rarity" name="rarity">
+      <option value="">Seleziona rarità</option>
+      <option value="Common">Common</option>
+      <option value="Uncommon">Uncommon</option>
+      <option value="Rare">Rare</option>
+      <option value="Holographic Rare">Holographic Rare</option>
+      <option value="Ultra Rare">Ultra Rare</option>
+      <option value="Secret Rare">Secret Rare</option>
+      <option value="1st Edition">1st Edition</option>
+      <option value="Shiny">Shiny</option>
+      <option value="Full Art">Full Art</option>
+    </select>
+
+    <label for="condition">Condizione</label>
+    <select id="condition" name="condition">
+      <option value="Near Mint">Near Mint</option>
+      <option value="Lightly Played">Lightly Played</option>
+      <option value="Moderately Played">Moderately Played</option>
+      <option value="Heavily Played">Heavily Played</option>
+      <option value="Damaged">Damaged</option>
+    </select>
+
+    <label for="quantity">Quantità</label>
+    <input type="number" id="quantity" name="quantity" value="1" min="1">
+
+    <label for="price">Prezzo Unitario (€)</label>
+    <input type="number" id="price" name="price" step="0.01" min="0" placeholder="0.00">
+
+    <label for="image_url">URL Immagine (opzionale)</label>
+    <input type="url" id="image_url" name="image_url" placeholder="https://...">
+
+    <input type="submit" value="Aggiungi Carta">
+  </form>
+
+  <div style="margin-top: 30px;">
+    <a href="{{ url_for('main.index') }}" class="btn">⬅️ Torna alla Collezione</a>
+  </div>
+{% endblock %}

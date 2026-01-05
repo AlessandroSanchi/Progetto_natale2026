@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Cerca Collezione Utente</h1>
+
+  <form method="post">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" required placeholder="Inserisci username">
+
+    <input type="submit" value="Cerca">
+  </form>
+{% endblock %}
