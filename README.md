@@ -23,6 +23,6 @@ Un sito web  per gestire una collezione di carte.
    ```
    pip install -r requirements.txt
    ```
-4. avviare il file run.py
+4. avviare il file setupdb.py e poi run.py
 
 5. Apri il browser e vai a http://127.0.0.1:5002/
